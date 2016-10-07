@@ -1,34 +1,34 @@
 
-var idReq = new XMLHttpRequest();
-var idArr = [];
-var bigData;
+var xml = new XMLHttpRequest();
+var ids = [];
+var data;
 
-var idReqFn = function() {
-  bigData = JSON.parse(this.responseText).data.children;
-  console.log('bigData ' , bigData);
+var xmlFn = function() {
+  data = JSON.parse(this.responseText).data.children;
+  console.log('data ' , data);
 
-  idHunter();
+  idFinder();
 
-  oReq();
+  req1();
 };
 
-var idHunter = function() {
-  for(var i = 0; i < bigData.length; i++) { //Get the link to pass with GET
-    var linkId = bigData[i].data.link_id;
-    idArr.push('https://www.reddit.com/r/gaming/comments/' + linkId.slice(3, linkId.length) + '.json');
+var idFinder = function() {
+  for(var i = 0; i < data.length; i++) { //Get the link to pass with GET
+    var linkId = data[i].data.id;
+    ids.push('https://www.reddit.com/r/gaming/comments/' + linkId + '.json');
   }
 };
 
-var oReq = function() {
-  for (var j = 0; j < idArr.length; j++) {
+var req1 = function() {
+  for (var j = 0; j < ids.length; j++) {
     var tempReq = new XMLHttpRequest();
-    tempReq.addEventListener('load', commSec);
-    tempReq.open('GET', idArr[j]);
+    tempReq.addEventListener('load', comm);
+    tempReq.open('GET', ids[j]);
     tempReq.send();
   }
 };
 
-var commSec = function() { //Populating the comment section
+var comm = function() { //Populating the comment section
   var tempData = JSON.parse(this.responseText);
   console.log(tempData);
   var bodie = document.getElementsByTagName('body')[0];
@@ -43,7 +43,7 @@ var commSec = function() { //Populating the comment section
 
 };
 
-idReq.addEventListener('load', idReqFn);
-// idReq.open('GET', 'https://www.reddit.com/r/gaming.json');
-idReq.open('GET', 'https://www.reddit.com/r/gaming/comments.json');
-idReq.send();
+xml.addEventListener('load', xmlFn);
+xml.open('GET', 'https://www.reddit.com/r/gaming.json');
+// xml.open('GET', 'https://www.reddit.com/r/gaming/comments.json');
+xml.send();
