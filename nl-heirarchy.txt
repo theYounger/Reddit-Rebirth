@@ -1,0 +1,47 @@
+NOW
+========
+(GLOBAL--)xml = new XMLHttpRequest();
+ids = [];
+xmlFn = function() {...};
+idFinder = function() {...};
+req1 = function() {...};
+comm = function() {...};
+xml.addEventListener('load',xmlFn);
+xml.open('GET', 'https://www.reddit.com/r/gaming.json');
+(--GLOBAL)xml.send();
+
+LATER
+=====
+(xmlFn--)data = JSON.parse(this.responseText).data.children;
+console.log('data ' , data); //later
+idFinder(); //later
+(--xmlFn)req1();
+
+(idFinder--)
+for(var i = 0; i < data.length; i++) { //Get the link to pass with GET
+  var linkId = data[i].data.id; //later
+  ids.push('https://www.reddit.com/r/gaming/comments/' + linkId + '.json'); //later
+}
+(--idFinder)
+
+(req1--)
+for (var j = 0; j < ids.length; j++) {
+  var tempReq = new XMLHttpRequest(); //later
+  tempReq.addEventListener/*later*/('load',comm);
+  tempReq.open('GET', ids[j]); //later
+  tempReq.send(); //later
+} //later
+(--req1)
+
+EVEN LATER
+==========
+(comm--)
+var tempData = JSON.parse(this.responseText); //even later
+console.log(tempData); //even later
+var bodie = document.getElementsByTagName('body')[0]; //even later
+var divie = document.createElement('div'); //even later
+var pp = document.createElement('p'); //even later
+bodie.appendChild(divie); //even later
+divie.appendChild(pp); //even later
+pp.innerHTML = tempData['0'].data.children[0].data.title;
+(--comm)
